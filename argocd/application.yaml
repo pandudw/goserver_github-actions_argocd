@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: goserver_actions_argocd
+  name: goserver-actions-argocd
   namespace: argocd
 spec:
   project: default

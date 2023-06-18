@@ -30,11 +30,11 @@ jobs:
         with:
           kustomize-version: v3.6.1
       
-      - name: update k8s
-        run: |
-          cd k8s
-          kustomize edit set image pandudw/goserver-img:${{ github.sha }}
-          cat kustomization.yaml
+      # - name: update k8s
+      #   run: |
+      #     cd k8s
+      #     kustomize edit set image pandudw/goserver-img:${{ github.sha }}
+      #     cat kustomization.yaml
 
-      - name: push
-        uses: ad-m/github-push-action@master
+      # - name: push
+      #   uses: ad-m/github-push-action@master

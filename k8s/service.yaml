@@ -7,5 +7,5 @@ spec:
   selector:
     app: goserver
   ports:
-  - port: 9999
-    targetPort: 9999
+  - port: 9091
+    targetPort: 9091

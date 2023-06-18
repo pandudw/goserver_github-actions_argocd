@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: goserver-img:latest
+        image: pandudw/goserver-img
         resources:
           requests:
             cpu: 10m

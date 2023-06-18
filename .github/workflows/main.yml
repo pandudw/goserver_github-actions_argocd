@@ -33,7 +33,7 @@ jobs:
       - name: update k8s
         run: |
           cd k8s
-          kustomize edit set image goserver-img=pandudw/goserver_github-actions_argocd:${{ github.sha }}
+          kustomize edit set image pandudw/goserver-img:${{ github.sha }}
           cat kustomization.yaml
 
       - name: push

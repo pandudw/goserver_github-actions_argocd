@@ -1,4 +1,5 @@
 name: goserver_actions_argocd
+
 on:
   push:
     branches:
@@ -7,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,33 +20,32 @@ jobs:
       - name: Build application
         run: go build -o myapp
 
-  # deploy:
-  #   runs-on: ubuntu-latest
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
-  #     steps:
-  #     - name: Set up gcloud
-  #       uses: google-github-actions/setup-gcloud@v0.2.0
-  #       with:
-  #         project_id: ${GCP_PROJECT_ID}
-  #         service_account_key: ${{ secrets.GCP_SA_KEY }}
-  #         export_default_credentials: true
+      - name: Configure Docker
+        uses: docker/setup-buildx-action@v1
 
-  #     - name: Configure Docker
-  #       uses: docker/setup-buildx-action@v1
+      - name: Build and push Docker image
+        env:
+          IMAGE_TAG: gcr.io/${{ secrets.GCP_PROJECT_ID }}/pandudw/goserver-img:${{ github.sha }}
+        run: |
+          docker build -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
 
-  #     - name: Build and push Docker image
-  #       env:
-  #         IMAGE_TAG: gcr.io/${GCP_PROJECT_ID}/myapp:${{ github.sha }}
-  #       run: |
-  #         docker build -t $IMAGE_TAG .
-  #         docker push $IMAGE_TAG
+      - name: Set up kubectl
+        run: |
+          gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ secrets.CLUSTER_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
 
-  #     - name: Set up kubectl
-  #       run: |
-  #         gcloud container clusters get-credentials YOUR_CLUSTER_NAME --zone YOUR_CLUSTER_ZONE --project YOUR_GCP_PROJECT_ID
-
-  #     - name: Deploy to Kubernetes
-  #       run: |
-  #         kubectl apply -f kubernetes/deployment.yaml --namespace default
-  #         kubectl apply -f kubernetes/service.yaml --namespace default
-
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f kubernetes/deployment.yaml --namespace default
+          kubectl apply -f kubernetes/service.yaml --namespace default

@@ -1,0 +1,27 @@
+name: goserver_actions_argocd
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout branch
+        uses: 'actions/checkout@v2'
+      - name: build image 
+        uses: docker/build-push-goserver-img@latest
+        with:
+          username: pandudw
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: pandudw/goserver_github-actions_argocd
+          tag: ${{ github.sha }}, latest
+
+  # deploy:
+  #   name: Deploy
+  #   runs-on: ubuntu-latest
+  #   steps: 
+  #     - name: checkout
+  #       uses: 'actions/checkout@v2'
+  #     - 

@@ -11,7 +11,7 @@ jobs:
       - name: checkout branch
         uses: 'actions/checkout@v2'
       - name: build image 
-        uses: docker/build-push-goserver-img@latest
+        uses: docker/build-push-action@v1
         with:
           username: pandudw
           password: ${{ secrets.DOCKER_PASSWORD }}

@@ -10,5 +10,3 @@ images:
 - name: default
   newName: pandudw/goserver-img
   newTag: v2
-- name: goserver-img
-  newName: pandudw/goserver_github-actions_argocd

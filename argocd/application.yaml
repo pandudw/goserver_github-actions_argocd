@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: goserver_actions_argocd
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/pandudw/goserver_github-actions_argocd.git
+    targetRevision: HEAD
+    path: k8s
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true

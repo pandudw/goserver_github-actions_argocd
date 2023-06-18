@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goserver
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -13,7 +14,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: goserver-img
+        image: goserver-img:latest
         resources:
           requests:
             cpu: 10m

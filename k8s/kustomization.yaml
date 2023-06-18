@@ -7,6 +7,6 @@ resources:
 namespace: goapp
 
 images:
-- name: default
+- name: pandudw/goserver-img
   newName: pandudw/goserver-img
   newTag: v2
